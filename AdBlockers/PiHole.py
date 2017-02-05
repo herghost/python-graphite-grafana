@@ -5,7 +5,7 @@ import ConfigParser
 import requests
 import socket
 import time
-import platform
+
 
 
 Config = ConfigParser.ConfigParser()
@@ -42,7 +42,6 @@ if __name__ == '__main__':
         ]
 
         message = '\n'.join(tosend) + '\n'
-        print(message)
         send(message)
         time.sleep(Config.getfloat('pihole','delay'))
 

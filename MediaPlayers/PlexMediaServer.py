@@ -1,13 +1,10 @@
 #! /usr/bin/python
 
-
+#! /usr/bin/python
 import ConfigParser
 import requests
 import socket
 import time
-import platform
-import urllib
-
 
 Config = ConfigParser.ConfigParser()
 Config.read("../config.ini")
@@ -24,7 +21,7 @@ def send(message):
     sock.close()
 
 if __name__ == '__main__':
-
+    while True:
             headers = {'X-Plex-Token': Config.get('plex', 'token'), 'Accept': 'application/json'}
             timestamp = int(time.time())
             tosend = []
@@ -47,6 +44,7 @@ if __name__ == '__main__':
 
             message =  '\n'.join(tosend) + '\n'
             send(message)
+            time.sleep(Config.getfloat('plex', 'delay'))
 
 
 

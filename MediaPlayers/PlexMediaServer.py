@@ -42,8 +42,8 @@ if __name__ == '__main__':
             nowplayingout = nowplaying.json()
             nowplayingcount = nowplayingout['MediaContainer']["size"]
 
-            tosend.append('plex.ondeck_count %s %d' % (items_on_deck, timestamp))
-            tosend.append('plex.now_playing_count %s %d' % (nowplayingcount, timestamp))
+            tosend.append(Config.get('plex','statname') + '.ondeck_count %s %d' % (items_on_deck, timestamp))
+            tosend.append(Config.get('plex','statname') + '.now_playing_count %s %d' % (nowplayingcount, timestamp))
 
             message =  '\n'.join(tosend) + '\n'
             send(message)

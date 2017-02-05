@@ -8,7 +8,7 @@ import datetime
 import calendar
 
 Config = ConfigParser.ConfigParser()
-Config.read("../config.ini")
+Config.read("config.ini")
 
 CarbonHost = Config.get('carbon', 'host')
 CarbonPort = Config.getint('carbon', 'port')

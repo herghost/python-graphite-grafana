@@ -3,6 +3,9 @@ import ConfigParser
 import requests
 import socket
 import time
+import re
+import datetime
+import calendar
 
 Config = ConfigParser.ConfigParser()
 Config.read("../config.ini")
@@ -23,7 +26,7 @@ if __name__ == '__main__':
             timestamp = int(time.time())
             tosend = []
 
-            #On Deck
+            #Stats
             url = "http://" + Config.get('sabnzbd', 'host') + ":" + Config.get('sabnzbd','port') + "/sabnzbd/api?apikey=" + Config.get('sabnzbd', 'token') + "&output=json&mode=server_stats"
 
             sab = requests.get(url)
@@ -66,6 +69,18 @@ if __name__ == '__main__':
                 tosend.append(Config.get('sabnzbd','statname') + '.' + k.replace('.','_') + '.download_week %s %d' % (week, timestamp))
                 tosend.append(Config.get('sabnzbd','statname') + '.' + k.replace('.','_') + '.download_total %s %d' % (total, timestamp))
 
+            # Downloading
+            url = "http://" + Config.get('sabnzbd', 'host') + ":" + Config.get('sabnzbd','port') + "/sabnzbd/api?apikey=" + Config.get('sabnzbd', 'token') + "&output=json&mode=qstatus"
+            sab = requests.get(url)
+            sabout = sab.json()
+
+            tosend.append(Config.get('sabnzbd','statname') + '.downloading_count %s %d' % (sabout["noofslots"], timestamp))
+
+            speed = re.sub("[^0-9]","",sabout["speed"])
+            tosend.append(Config.get('sabnzbd','statname') + '.downloading_speed %s %d' % (speed, timestamp))
+
+            mb = sabout["mbleft"]
+            tosend.append(Config.get('sabnzbd', 'statname') + '.downloading_remain %s %d' % (mb, timestamp))
 
 
             message =  '\n'.join(tosend) + '\n'

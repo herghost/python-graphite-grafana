@@ -7,7 +7,7 @@ import socket
 import time
 
 Config = ConfigParser.ConfigParser()
-Config.read("config.ini")
+Config.read("mediaplayerconfig.ini")
 
 CarbonHost = Config.get('carbon', 'host')
 CarbonPort = Config.getint('carbon', 'port')

@@ -4,16 +4,15 @@ import requests
 import socket
 import time
 import re
-import datetime
-import calendar
+
 
 Config = ConfigParser.ConfigParser()
-Config.read("config.ini")
+Config.read("downloaderconfig.ini")
 
 CarbonHost = Config.get('carbon', 'host')
 CarbonPort = Config.getint('carbon', 'port')
 
-Delay = Config.get('plex','delay')
+Delay = Config.get('sabnzbd','delay')
 
 def send(message):
     sock = socket.socket()
@@ -31,7 +30,6 @@ if __name__ == '__main__':
 
             sab = requests.get(url)
             sabout = sab.json()
-
 
             week = float(sabout['week'])
             week = float(week / 1073741824)
